@@ -6,17 +6,20 @@ import Boxes from "./components/boxes";
 import Widgets from "./components/widgets";
 
 function App() {
+
+
   return (
-    <div>
+    <div className="algo">
+       <div> 
+        <SideNavbar />
+      </div>
       <div>
         <Topbar />
         <Heading />
+        <Boxes/>
+        <Widgets/>
       </div>
-      <div>
-        <Boxes />
-        <SideNavbar />
-       <Widgets/>
-      </div>
+     
     </div>
   );
 }

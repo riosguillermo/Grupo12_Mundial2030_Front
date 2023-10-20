@@ -1,60 +1,81 @@
-import React from "react";
+import React, {Component} from "react";
 
-function boxes() {
+class boxes extends Component {
+
+  constructor(){
+    super();
+    this.state = {
+      cantidadUsuarios: "Cargando...",
+      cantidadArte: "Cargando...",
+    }
+  }
+  
+
+  apiCall(url, consecuencia){
+    fetch(url).then(function(response){
+      return response.json()
+    }).then(function(data){
+      return consecuencia(data);
+    })
+  }
+
+  componentDidMount(){
+    this.apiCall("http://localhost:3002/apiUsuario", this.actualizarDatoUsuario);
+    this.apiCall("http://localhost:3002/cards/arte/apiArte", this.actualizarDatoArte);
+  }
+
+  actualizarDatoArte = (data) => {
+    this.setState({
+      cantidadArte: data.data.length
+    })
+  }
+
+  actualizarDatoUsuario = (data) => {
+    this.setState({
+      cantidadUsuarios: data.data.length
+    })
+  }  
+
+
+  render(){
   return (
-    <div class="row">
-      <div class="col-md-4 mb-4">
-        <div class="card border-left-primary shadow h-100 py-2">
-          <div class="card-body">
-            <div class="row no-gutters align-items-center">
-              <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+    
+    <div className="row">
+   
+
+      <div className="col-md-6 mb-4">
+        <div className="card border-left-success shadow h-100 py-2">
+          <div className="card-body">
+            <div className="row no-gutters align-items-center">
+              <div className="col mr-2">
+                <div className="text-xs font-weight-bold text-success text-uppercase mb-1">
                   {" "}
-                  Products in Data Base
+                  Cantidad de usuarios
                 </div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">135</div>
+                <div className="h5 mb-0 font-weight-bold text-gray-800">
+                  {this.state.cantidadUsuarios}
+                </div>
               </div>
-              <div class="col-auto">
-                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+              <div className="col-auto">
+                <i className="fas fa-dollar-sign fa-2x text-gray-300"></i>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="col-md-4 mb-4">
-        <div class="card border-left-success shadow h-100 py-2">
-          <div class="card-body">
-            <div class="row no-gutters align-items-center">
-              <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                  {" "}
-                  Amount in products
+      <div className="col-md-6 mb-4">
+        <div className="card border-left-warning shadow h-100 py-2">
+          <div className="card-body">
+            <div className="row no-gutters align-items-center">
+              <div className="col mr-2">
+                <div className="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                  Total de obras compartidas
                 </div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                  $546.456
-                </div>
+                <div className="h5 mb-0 font-weight-bold text-gray-800">{this.state.cantidadArte}</div>
               </div>
-              <div class="col-auto">
-                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-4 mb-4">
-        <div class="card border-left-warning shadow h-100 py-2">
-          <div class="card-body">
-            <div class="row no-gutters align-items-center">
-              <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                  Users quantity
-                </div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">38</div>
-              </div>
-              <div class="col-auto">
-                <i class="fas fa-user-check fa-2x text-gray-300"></i>
+              <div className="col-auto">
+                <i className="fas fa-user-check fa-2x text-gray-300"></i>
               </div>
             </div>
           </div>
@@ -62,6 +83,7 @@ function boxes() {
       </div>
     </div>
   );
+}
 }
 
 export default boxes;
